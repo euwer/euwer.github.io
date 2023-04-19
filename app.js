@@ -147,23 +147,29 @@ function onMouseMove(event) {
   const clickableCubeIntersects = raycaster.intersectObjects([clickableCube]);
   const clickCubeIntersects = raycaster.intersectObjects([clickCube]);
 
+  let cursorChanged = false;
+
   if (clickableCubeIntersects.length > 0) {
     // Change the cube color to a lighter shade and the mouse cursor to a button effect
     clickableCubeMaterial.color.lerp(new THREE.Color(0x00ff00), 0.5);
     document.body.style.cursor = 'pointer';
+    cursorChanged = true;
   } else {
-    // Restore the original color of the cube and reset the mouse cursor
+    // Restore the original color of the cube
     clickableCubeMaterial.color.copy(originalColor);
-    document.body.style.cursor = 'default';
   }
 
   if (clickCubeIntersects.length > 0) {
     // Change the cube color to a lighter shade and the mouse cursor to a button effect
     clickMaterials.color.lerp(new THREE.Color(0x3333ff), 0.5);
     document.body.style.cursor = 'pointer';
+    cursorChanged = true;
   } else {
-    // Restore the original color of the cube and reset the mouse cursor
+    // Restore the original color of the cube
     clickMaterials.color.copy(originaldown);
+  }
+
+  if (!cursorChanged) {
     document.body.style.cursor = 'default';
   }
 }
@@ -172,6 +178,7 @@ function onMouseMove(event) {
 window.addEventListener("mousemove", onMouseMove);
 
 // ...
+
 
 
 function onMouseClick(event) {
