@@ -78,7 +78,7 @@ loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json
     height: 0.06,
   });
 
-  const demoTextMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
+  const demoTextMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
   const demoTextMesh = new THREE.Mesh(demoTextGeometry, demoTextMaterial);
   demoTextMesh.position.set(-2, 1.65, 0); // Adjust the position as needed
   scene.add(demoTextMesh);
@@ -90,9 +90,9 @@ loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json
     height: 0.06,
   });
 
-  const downloadTextMaterial = new THREE.MeshBasicMaterial({ color: 0xFB00FF });
+  const downloadTextMaterial = new THREE.MeshBasicMaterial({ color: 0x3333ff });
   const downloadTextMesh = new THREE.Mesh(downloadTextGeometry, downloadTextMaterial);
-  downloadTextMesh.position.set(-2, 0.4, 0); // Adjust the position as needed
+  downloadTextMesh.position.set(-3.5, 0.4, 0); // Adjust the position as needed
   scene.add(downloadTextMesh);
 });
 
@@ -160,7 +160,7 @@ function onMouseMove(event) {
 
     if (intersects1.length > 0) {
         // Change the cube color to a lighter shade and the mouse cursor to a button effect
-        clickMaterials.color.lerp(new THREE.Color(0x0000ff), 0.5);
+        clickMaterials.color.lerp(new THREE.Color(0x3333ff), 0.5);
         document.body.style.cursor = 'pointer';
     }
     else {
