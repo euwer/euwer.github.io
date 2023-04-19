@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/thr
 import { OrbitControls } from "https://cdn.skypack.dev/three-stdlib/controls/OrbitControls";
 
 var textElement = document.createElement("h1");
-textElement.textContent = "Euwer's Night Cities";
+textElement.textContent = "Euwer's Cyber Cities";
 
 // Set the position and styling of the text element
 textElement.style.position = "fixed";
