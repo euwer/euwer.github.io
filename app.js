@@ -136,44 +136,43 @@ const originaldown = clickMaterials.color.clone();
 
 
 function onMouseMove(event) {
-    // Calculate the mouse position in normalized device coordinates (-1 to +1) for both components
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  
-    // Update the picking ray with the camera and mouse position
-    raycaster.setFromCamera(mouse, camera);
-  
-    // Calculate objects intersecting the picking ray
-    const intersects = raycaster.intersectObjects([clickableCube]);
-    const intersects1 = raycaster.intersectObjects([clickCube]);
-  
-    if (intersects.length > 0) {
-      // Change the cube color to a lighter shade and the mouse cursor to a button effect
-      clickableCubeMaterial.color.lerp(new THREE.Color(0x00ff00), 0.5);
-      document.body.style.cursor = 'pointer';
-    } else {
-      // Restore the original color of the cube and reset the mouse cursor
-      clickableCubeMaterial.color.copy(originalColor);
-      document.body.style.cursor = 'default';
-    }
+  // Calculate the mouse position in normalized device coordinates (-1 to +1) for both components
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
+  // Update the picking ray with the camera and mouse position
+  raycaster.setFromCamera(mouse, camera);
 
-    if (intersects1.length > 0) {
-        // Change the cube color to a lighter shade and the mouse cursor to a button effect
-        clickMaterials.color.lerp(new THREE.Color(0x3333ff), 0.5);
-        document.body.style.cursor = 'pointer';
-    }
-    else {
-      // Restore the original color of the cube and reset the mouse cursor
-      clickMaterials.color.copy(originaldown);
-      document.body.style.cursor = 'default';
-    }
+  // Calculate objects intersecting the picking ray
+  const clickableCubeIntersects = raycaster.intersectObjects([clickableCube]);
+  const clickCubeIntersects = raycaster.intersectObjects([clickCube]);
+
+  if (clickableCubeIntersects.length > 0) {
+    // Change the cube color to a lighter shade and the mouse cursor to a button effect
+    clickableCubeMaterial.color.lerp(new THREE.Color(0x00ff00), 0.5);
+    document.body.style.cursor = 'pointer';
+  } else {
+    // Restore the original color of the cube and reset the mouse cursor
+    clickableCubeMaterial.color.copy(originalColor);
+    document.body.style.cursor = 'default';
+  }
+
+  if (clickCubeIntersects.length > 0) {
+    // Change the cube color to a lighter shade and the mouse cursor to a button effect
+    clickMaterials.color.lerp(new THREE.Color(0x3333ff), 0.5);
+    document.body.style.cursor = 'pointer';
+  } else {
+    // Restore the original color of the cube and reset the mouse cursor
+    clickMaterials.color.copy(originaldown);
+    document.body.style.cursor = 'default';
+  }
 }
-  
-  // Add event listener for the "mousemove" event
-  window.addEventListener("mousemove", onMouseMove);
-  
-  // ...
+
+// Add event listener for the "mousemove" event
+window.addEventListener("mousemove", onMouseMove);
+
+// ...
+
 
 function onMouseClick(event) {
     // Calculate the mouse position in normalized device coordinates (-1 to +1) for both components
