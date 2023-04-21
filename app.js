@@ -1,21 +1,26 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.min.js";
-import { PointerLockControls } from "https://cdn.skypack.dev/three-stdlib/controls/PointerLockControls";
+import { FirstPersonControls } from "https://cdn.skypack.dev/three-stdlib/controls/FirstPersonControls";
+
+//function for button
+
+const removeButton = document.getElementById("removeal");
+const controlaElement = document.getElementById("controla");
+const controldElement = document.getElementById("controld");
+const controlwElement = document.getElementById("controlw");
+const controlsElement = document.getElementById("controls");
+const controlshfElement = document.getElementById("controlshf");
+const controlspcElement = document.getElementById("controlspc");
 
 
-var textElement = document.createElement("h1");
-textElement.textContent = "Euwer's Cyber Cities";
-
-// Set the position and styling of the text element
-textElement.style.position = "fixed";
-textElement.style.top = "10 px";
-textElement.style.left = "20px";
-textElement.style.padding = "0px";
-textElement.style.background = "transparent";
-textElement.style.fontStyle = "bold";
-textElement.style.color = "white";
-
-// Append the text element to the body of the HTML document
-document.body.appendChild(textElement);
+removeal.addEventListener("click", function() {
+  controlshfElement.remove();
+  controlspcElement.remove();
+  controlaElement.remove();
+  controldElement.remove();
+  controlwElement.remove();
+  controlsElement.remove();
+  removeButton.remove();
+});
 
 // Set up the scene, camera, and renderer
 const scene = new THREE.Scene();
@@ -27,19 +32,37 @@ renderer.setClearColor(0x000000);
 document.body.appendChild(renderer.domElement);
 
 // Add orbit controls
-const controls = new PointerLockControls(camera, renderer.domElement);
+const controls = new FirstPersonControls(camera, renderer.domElement);
+controls.movementSpeed = 5;
+controls.lookSpeed = 0.2;
+controls.lookVertical = true;
+controls.constrainVertical = true;
+controls.verticalMin = 1.0;
+controls.verticalMax = 2.0;
 
-document.addEventListener("click", () => {
-  controls.lock();
+let spacePressed = false;
+let shiftPressed = false;
+
+window.addEventListener("keydown", (event) => {
+  if (event.code === "Space") {
+    spacePressed = true;
+  }
+  if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+    shiftPressed = true;
+  }
 });
 
-controls.addEventListener("lock", () => {
-  textElement.style.display = "none";
+window.addEventListener("keyup", (event) => {
+  if (event.code === "Space") {
+    spacePressed = false;
+  }
+  if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+    shiftPressed = false;
+  }
 });
 
-controls.addEventListener("unlock", () => {
-  textElement.style.display = "";
-});
+
+
 
 // Set up the camera position
 camera.position.set(0, 3, 7);
@@ -116,16 +139,32 @@ plane.rotation.x = -Math.PI / 2;
 scene.add(plane);
 
 // Render the scene
+let clock = new THREE.Clock();
+
 function animate() {
   requestAnimationFrame(animate);
-  controls.update(); // Add this line
+
+  let delta = clock.getDelta();
+
+  if (spacePressed) {
+    camera.position.y += 5 * delta;
+  }
+
+  if (shiftPressed) {
+    camera.position.y -= 5 * delta;
+  }
+
+  controls.update(delta);
+
   renderer.render(scene, camera);
 }
+
 
 
 animate();
 
 // Add an event listener for the "wheel" event
+window.addEventListener('wheel', handleScroll);
 
 function handleScroll(event) {
   // Adjust the camera position based on the scroll direction
@@ -185,6 +224,7 @@ function onMouseMove(event) {
 }
 
 // Add event listener for the "mousemove" event
+window.addEventListener("mousemove", onMouseMove);
 
 // ...
 
@@ -216,4 +256,3 @@ function onMouseClick(event) {
   
   // Add event listeners for the click event and onMouseClick function
   window.addEventListener("click", onMouseClick);
-  
