@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.min.js";
-import { OrbitControls } from "https://cdn.skypack.dev/three-stdlib/controls/OrbitControls";
+import { PointerLockControls } from "https://cdn.skypack.dev/three-stdlib/controls/PointerLockControls";
+
 
 var textElement = document.createElement("h1");
 textElement.textContent = "Euwer's Cyber Cities";
@@ -26,10 +27,19 @@ renderer.setClearColor(0x000000);
 document.body.appendChild(renderer.domElement);
 
 // Add orbit controls
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.1;
-controls.update();
+const controls = new PointerLockControls(camera, renderer.domElement);
+
+document.addEventListener("click", () => {
+  controls.lock();
+});
+
+controls.addEventListener("lock", () => {
+  textElement.style.display = "none";
+});
+
+controls.addEventListener("unlock", () => {
+  textElement.style.display = "";
+});
 
 // Set up the camera position
 camera.position.set(0, 3, 7);
@@ -108,14 +118,14 @@ scene.add(plane);
 // Render the scene
 function animate() {
   requestAnimationFrame(animate);
-  controls.update();
+  controls.update(); // Add this line
   renderer.render(scene, camera);
 }
+
 
 animate();
 
 // Add an event listener for the "wheel" event
-window.addEventListener('wheel', handleScroll);
 
 function handleScroll(event) {
   // Adjust the camera position based on the scroll direction
@@ -175,7 +185,6 @@ function onMouseMove(event) {
 }
 
 // Add event listener for the "mousemove" event
-window.addEventListener("mousemove", onMouseMove);
 
 // ...
 
